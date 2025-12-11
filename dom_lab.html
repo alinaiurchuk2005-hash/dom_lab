@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Практична робота DOM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fafafa;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #4b2ca1;
+        }
+        .task {
+            background: white;
+            padding: 14px;
+            margin: 16px 0;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 6px 12px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .red {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Практична робота з DOM (Юрчук Аліна)</h1>
+
+<!-- 1 -->
+<div class="task">
+    <h2>Завдання 1: Вивід тексту заголовка у консоль</h2>
+    <h3 id="header">Привіт, світ!</h3>
+    <p>Перевірте консоль браузера (F12 → Console).</p>
+</div>
+
+<!-- 2 -->
+<div class="task">
+    <h2>Завдання 2: Зміна тексту абзаца</h2>
+    <p id="text">Цей текст зміниться.</p>
+    <button id="changeTextButton">Змінити текст</button>
+</div>
+
+<!-- 3 -->
+<div class="task">
+    <h2>Завдання 3: Додавання абзаців</h2>
+    <button id="addParagraphButton">Додати абзац</button>
+</div>
+
+<!-- 4 -->
+<div class="task">
+    <h2>Завдання 4: Видалення останнього абзацу</h2>
+    <button id="removeLastParagraph">Видалити останній абзац</button>
+</div>
+
+<!-- 5 -->
+<div class="task">
+    <h2>Завдання 5: Зміна фону сторінки</h2>
+    <button id="changeBackgroundColor">Змінити фон</button>
+</div>
+
+<!-- 6 -->
+<div class="task">
+    <h2>Завдання 6: Hover подія</h2>
+    <p id="hoverText">Наведіть на мене курсор!</p>
+</div>
+
+<!-- 7 -->
+<div class="task">
+    <h2>Завдання 7: Валідація email</h2>
+    <form id="emailForm">
+        <input type="email" id="email" placeholder="Введіть email">
+        <button type="submit">Перевірити</button>
+    </form>
+</div>
+
+<!-- 8 -->
+<div class="task">
+    <h2>Завдання 8: Зміна атрибуту зображення</h2>
+    <img id="image" src="https://via.placeholder.com/150x80?text=Image1">
+    <br>
+    <button id="changeImage">Змінити зображення</button>
+</div>
+
+<!-- 9 -->
+<div class="task">
+    <h2>Завдання 9: Додавання класу</h2>
+    <p id="styledText">Цей текст стане червоним.</p>
+    <button id="addClassButton">Додати клас</button>
+</div>
+
+<!-- 10 -->
+<div class="task">
+    <h2>Завдання 10: Публікація</h2>
+    <p>Цей документ можна опублікувати як окремий проєкт на GitHub Pages або інший хостинг.</p>
+</div>
+
+
+<script>
+// 1 – Вивід заголовка
+console.log(document.getElementById("header").innerText);
+
+// 2 – Зміна тексту
+document.getElementById("changeTextButton").onclick = function() {
+    document.getElementById("text").innerText = "Текст змінено!";
+};
+
+// 3 – Додавання абзацу
+document.getElementById("addParagraphButton").onclick = function() {
+    const p = document.createElement("p");
+    p.innerText = "Новий абзац!";
+    document.body.appendChild(p);
+};
+
+// 4 – Видалення останнього абзацу
+document.getElementById("removeLastParagraph").onclick = function() {
+    const paragraphs = document.getElementsByTagName("p");
+    if (paragraphs.length > 0) {
+        paragraphs[paragraphs.length - 1].remove();
+    }
+};
+
+// 5 – Зміна фону
+document.getElementById("changeBackgroundColor").onclick = function() {
+    document.body.style.backgroundColor = "#d9e6ff";
+};
+
+// 6 – Hover ефект
+const hoverText = document.getElementById("hoverText");
+hoverText.onmouseover = () => hoverText.style.color = "red";
+hoverText.onmouseout = () => hoverText.style.color = "black";
+
+// 7 – Перевірка email
+document.getElementById("emailForm").onsubmit = function(event) {
+    const email = document.getElementById("email").value;
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!pattern.test(email)) {
+        alert("Email невірний!");
+        event.preventDefault();
+    } else {
+        alert("Email коректний!");
+    }
+};
+
+// 8 – Зміна зображення
+document.getElementById("changeImage").onclick = function() {
+    const img = document.getElementById("image");
+    if (img.src.includes("Image1")) {
+        img.src = "https://via.placeholder.com/150x80?text=Image2";
+    } else {
+        img.src = "https://via.placeholder.com/150x80?text=Image1";
+    }
+};
+
+// 9 – Додавання класу
+document.getElementById("addClassButton").onclick = function() {
+    document.getElementById("styledText").classList.add("red");
+};
+</script>
+
+</body>
+</html>
