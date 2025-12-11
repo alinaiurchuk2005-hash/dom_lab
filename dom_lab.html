@@ -2,29 +2,228 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Практична робота DOM</title>
+    <title>Практична робота з DOM – Юрчук Аліна</title>
+
     <style>
+        :root {
+            --bg: #f7f4ff;
+            --card-bg: #ffffff;
+            --accent: #5b41a0;
+            --accent-soft: #e5dafe;
+            --accent-strong: #4b2ca1;
+            --border: #d3c8f1;
+            --text-main: #333;
+            --text-soft: #666;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #fafafa;
-            padding: 20px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top left, #ffe8ff, #f7f4ff 40%, #e3f3ff 90%);
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
         }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            background: rgba(247, 244, 255, 0.9);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .topbar {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .brand {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--accent-strong);
+        }
+
+        .pill {
+            font-size: 0.78rem;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #fff;
+            border: 1px solid var(--border);
+            color: var(--text-soft);
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 18px 16px 40px;
+            display: grid;
+            grid-template-columns: minmax(0, 3fr) minmax(220px, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
         h1 {
-            text-align: center;
-            color: #4b2ca1;
+            margin-top: 4px;
+            font-size: 1.8rem;
+            color: var(--accent-strong);
         }
+
+        .intro {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 18px;
+            padding: 16px 18px 6px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 16px rgba(69, 39, 160, 0.12);
+        }
+
+        .intro p {
+            font-size: 0.95rem;
+            color: var(--text-soft);
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 60px;
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 18px;
+            padding: 14px 14px 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 16px rgba(69, 39, 160, 0.1);
+        }
+
+        .sidebar h3 {
+            margin-top: 0;
+            font-size: 1rem;
+            color: var(--accent-strong);
+        }
+
+        .sidebar a {
+            display: block;
+            font-size: 0.88rem;
+            text-decoration: none;
+            color: var(--text-soft);
+            padding: 4px 6px;
+            border-radius: 999px;
+            margin-bottom: 2px;
+        }
+
+        .sidebar a:hover {
+            background: var(--accent-soft);
+            color: var(--accent-strong);
+        }
+
+        .tasks {
+            margin-top: 18px;
+        }
+
         .task {
-            background: white;
-            padding: 14px;
-            margin: 16px 0;
-            border-radius: 10px;
-            border: 1px solid #ddd;
+            background: var(--card-bg);
+            padding: 18px 18px 14px;
+            margin-bottom: 18px;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 14px rgba(69, 39, 160, 0.08);
         }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: baseline;
+        }
+
+        .task h2 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+
+        .task-variant {
+            font-size: 0.8rem;
+            color: var(--text-soft);
+        }
+
+        .task p {
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .hint {
+            font-size: 0.8rem;
+            color: var(--text-soft);
+            background: #faf8ff;
+            border-radius: 12px;
+            padding: 6px 8px;
+            margin: 6px 0 10px;
+            border: 1px dashed var(--border);
+        }
+
         button {
-            padding: 6px 12px;
-            margin-top: 10px;
+            padding: 7px 14px;
+            background: var(--accent-soft);
+            border: 1px solid var(--border);
+            border-radius: 999px;
             cursor: pointer;
+            margin-top: 6px;
+            font-size: 0.88rem;
         }
+
+        button:hover {
+            background: #d9c7ff;
+        }
+
+        .output {
+            margin-top: 10px;
+            font-size: 0.86rem;
+            padding: 8px 10px;
+            border-radius: 12px;
+            background: #fbfaff;
+            border: 1px dashed var(--border);
+            white-space: pre-wrap;
+        }
+
+        .output-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--accent-strong);
+        }
+
+        .label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-soft);
+        }
+
+        input[type="email"] {
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        img.demo-img {
+            margin-top: 6px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
         .red {
             color: red;
         }
@@ -32,131 +231,342 @@
 </head>
 <body>
 
-<h1>Практична робота з DOM (Юрчук Аліна)</h1>
+<header>
+    <div class="topbar">
+        <div class="brand">Практична робота з DOM · Юрчук Аліна</div>
+        <div class="pill">Маніпулювання елементами сторінки та подіями</div>
+    </div>
+</header>
 
-<!-- 1 -->
-<div class="task">
-    <h2>Завдання 1: Вивід тексту заголовка у консоль</h2>
-    <h3 id="header">Привіт, світ!</h3>
-    <p>Перевірте консоль браузера (F12 → Console).</p>
-</div>
+<main>
+    <section>
+        <div class="intro">
+            <h1>Робота з DOM і подіями в JavaScript</h1>
+            <p>
+                На цій сторінці реалізовано серію навчальних завдань, які демонструють основні прийоми
+                роботи з об’єктною моделлю документа (DOM): пошук і зміна елементів, додавання та
+                видалення вузлів, обробка подій, зміна стилів, атрибутів та базова валідація форм.
+                Кожне завдання супроводжується коротким описом та інтерактивним прикладом.
+            </p>
+            <p class="hint">
+                Порада: відкрийте інструменти розробника (F12) та спостерігайте за вкладками
+                <strong>Elements</strong> і <strong>Console</strong>, щоб бачити, як змінюється сторінка під час виконання скриптів.
+            </p>
+        </div>
 
-<!-- 2 -->
-<div class="task">
-    <h2>Завдання 2: Зміна тексту абзаца</h2>
-    <p id="text">Цей текст зміниться.</p>
-    <button id="changeTextButton">Змінити текст</button>
-</div>
+        <div class="tasks">
 
-<!-- 3 -->
-<div class="task">
-    <h2>Завдання 3: Додавання абзаців</h2>
-    <button id="addParagraphButton">Додати абзац</button>
-</div>
+            <!-- ЗАВДАННЯ 1 -->
+            <article id="task1" class="task">
+                <div class="task-header">
+                    <h2>Завдання 1. Отримання елемента і виведення тексту в консоль</h2>
+                    <span class="task-variant label">Базове знайомство з DOM</span>
+                </div>
+                <p>
+                    За допомогою <code>document.getElementById()</code> отримуємо заголовок сторінки та
+                    виводимо його текст у консоль. Такий прийом дозволяє переконатися, що ми правильно
+                    звертаємось до елементів DOM.
+                </p>
+                <div class="hint">
+                    Відкрийте <strong>Console</strong> у DevTools, щоб побачити повідомлення, яке браузер виводить
+                    під час завантаження сторінки.
+                </div>
+                <h3 id="header">Привіт, DOM!</h3>
 
-<!-- 4 -->
-<div class="task">
-    <h2>Завдання 4: Видалення останнього абзацу</h2>
-    <button id="removeLastParagraph">Видалити останній абзац</button>
-</div>
+                <div class="output" id="task1-output">
+                    <div class="output-title">Журнал:</div>
+                    Повідомлення з'явиться в консолі, коли сторінка повністю завантажиться.
+                </div>
+            </article>
 
-<!-- 5 -->
-<div class="task">
-    <h2>Завдання 5: Зміна фону сторінки</h2>
-    <button id="changeBackgroundColor">Змінити фон</button>
-</div>
+            <!-- ЗАВДАННЯ 2 -->
+            <article id="task2" class="task">
+                <div class="task-header">
+                    <h2>Завдання 2. Зміна текстового вмісту елемента</h2>
+                    <span class="task-variant label">Подія «click»</span>
+                </div>
+                <p>
+                    У цьому завданні ми змінюємо вміст абзацу після натискання кнопки.
+                    Це основа для створення інтерактивних підказок, повідомлень, статусів тощо.
+                </p>
+                <p id="text">Цей текст зміниться після натискання кнопки нижче.</p>
+                <button id="changeTextButton">Змінити текст</button>
 
-<!-- 6 -->
-<div class="task">
-    <h2>Завдання 6: Hover подія</h2>
-    <p id="hoverText">Наведіть на мене курсор!</p>
-</div>
+                <div class="output" id="task2-output">
+                    <div class="output-title">Результат:</div>
+                    Ще не змінено.
+                </div>
+            </article>
 
-<!-- 7 -->
-<div class="task">
-    <h2>Завдання 7: Валідація email</h2>
-    <form id="emailForm">
-        <input type="email" id="email" placeholder="Введіть email">
-        <button type="submit">Перевірити</button>
-    </form>
-</div>
+            <!-- ЗАВДАННЯ 3 -->
+            <article id="task3" class="task">
+                <div class="task-header">
+                    <h2>Завдання 3. Додавання нових абзаців на сторінку</h2>
+                    <span class="task-variant label">Створення вузлів</span>
+                </div>
+                <p>
+                    Під час натискання кнопки створюється новий елемент <code>&lt;p&gt;</code>, задається його текст,
+                    і він додається в кінець документа. Так працюють системи коментарів, чати і динамічні списки.
+                </p>
+                <button id="addParagraphButton">Додати новий абзац</button>
 
-<!-- 8 -->
-<div class="task">
-    <h2>Завдання 8: Зміна атрибуту зображення</h2>
-    <img id="image" src="https://via.placeholder.com/150x80?text=Image1">
-    <br>
-    <button id="changeImage">Змінити зображення</button>
-</div>
+                <div class="output" id="task3-output">
+                    <div class="output-title">Журнал додавання:</div>
+                    Поки що нові абзаци не додавалися.
+                </div>
+            </article>
 
-<!-- 9 -->
-<div class="task">
-    <h2>Завдання 9: Додавання класу</h2>
-    <p id="styledText">Цей текст стане червоним.</p>
-    <button id="addClassButton">Додати клас</button>
-</div>
+            <!-- ЗАВДАННЯ 4 -->
+            <article id="task4" class="task">
+                <div class="task-header">
+                    <h2>Завдання 4. Видалення останнього абзацу</h2>
+                    <span class="task-variant label">Робота з колекціями елементів</span>
+                </div>
+                <p>
+                    За допомогою <code>getElementsByTagName("p")</code> отримуємо колекцію всіх абзаців на сторінці.
+                    Якщо абзаци є, останній з них видаляється. Це демонстрація того, як можна керувати
+                    структурою сторінки у відповідь на дії користувача.
+                </p>
+                <button id="removeLastParagraph">Видалити останній абзац</button>
 
+                <div class="output" id="task4-output">
+                    <div class="output-title">Стан:</div>
+                    Жодного абзацу ще не видалено.
+                </div>
+            </article>
 
-// 1 – Вивід заголовка
-console.log(document.getElementById("header").innerText);
+            <!-- ЗАВДАННЯ 5 -->
+            <article id="task5" class="task">
+                <div class="task-header">
+                    <h2>Завдання 5. Зміна фону сторінки</h2>
+                    <span class="task-variant label">Зміна стилів</span>
+                </div>
+                <p>
+                    Тут демонструється зміна стилів документа за допомогою JavaScript.
+                    Ми керуємо кольором фону <code>document.body</code>, перемикаючи його між двома варіантами.
+                </p>
+                <button id="changeBackgroundColor">Перемкнути фон</button>
 
-// 2 – Зміна тексту
-document.getElementById("changeTextButton").onclick = function() {
-    document.getElementById("text").innerText = "Текст змінено!";
-};
+                <div class="output" id="task5-output">
+                    <div class="output-title">Поточний фон:</div>
+                    Стартовий (пастельний).
+                </div>
+            </article>
 
-// 3 – Додавання абзацу
-document.getElementById("addParagraphButton").onclick = function() {
-    const p = document.createElement("p");
-    p.innerText = "Новий абзац!";
-    document.body.appendChild(p);
-};
+            <!-- ЗАВДАННЯ 6 -->
+            <article id="task6" class="task">
+                <div class="task-header">
+                    <h2>Завдання 6. Зміна стилю при наведенні (hover)</h2>
+                    <span class="task-variant label">Події «mouseover» та «mouseout»</span>
+                </div>
+                <p>
+                    Події наведення курсора дозволяють створювати ефекти підсвічування, меню, підказки.
+                    У цьому завданні текст змінює свій колір, коли на нього наводять курсор миші, і
+                    повертається до початкового вигляду після відведення.
+                </p>
+                <p id="hoverText">Наведіть курсор на цей текст, щоб змінити його колір.</p>
 
-// 4 – Видалення останнього абзацу
-document.getElementById("removeLastParagraph").onclick = function() {
-    const paragraphs = document.getElementsByTagName("p");
-    if (paragraphs.length > 0) {
-        paragraphs[paragraphs.length - 1].remove();
-    }
-};
+                <div class="output" id="task6-output">
+                    <div class="output-title">Журнал подій:</div>
+                    Ще не було наведень.
+                </div>
+            </article>
 
-// 5 – Зміна фону
-document.getElementById("changeBackgroundColor").onclick = function() {
-    document.body.style.backgroundColor = "#d9e6ff";
-};
+            <!-- ЗАВДАННЯ 7 -->
+            <article id="task7" class="task">
+                <div class="task-header">
+                    <h2>Завдання 7. Валідація електронної пошти у формі</h2>
+                    <span class="task-variant label">Регулярні вирази</span>
+                </div>
+                <p>
+                    Для перевірки правильності введення email використовується регулярний вираз.
+                    Якщо формат не відповідає очікуваному, відображається повідомлення і відправка
+                    форми скасовується. Це один із базових способів валідації даних перед надсиланням.
+                </p>
 
-// 6 – Hover ефект
-const hoverText = document.getElementById("hoverText");
-hoverText.onmouseover = () => hoverText.style.color = "red";
-hoverText.onmouseout = () => hoverText.style.color = "black";
+                <form id="emailForm">
+                    <input type="email" id="email" placeholder="Введіть email">
+                    <button type="submit">Перевірити</button>
+                </form>
 
-// 7 – Перевірка email
-document.getElementById("emailForm").onsubmit = function(event) {
-    const email = document.getElementById("email").value;
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                <div class="output" id="task7-output">
+                    <div class="output-title">Результат перевірки:</div>
+                    Пошта ще не перевірялась.
+                </div>
+            </article>
 
-    if (!pattern.test(email)) {
-        alert("Email невірний!");
-        event.preventDefault();
-    } else {
-        alert("Email коректний!");
-    }
-};
+            <!-- ЗАВДАННЯ 8 -->
+            <article id="task8" class="task">
+                <div class="task-header">
+                    <h2>Завдання 8. Зміна атрибута зображення</h2>
+                    <span class="task-variant label">Робота з атрибутами</span>
+                </div>
+                <p>
+                    За допомогою властивості <code>src</code> змінюємо зображення при кожному натисканні
+                    кнопки. Подібний підхід використовується у слайдерах, галереях та інтерактивних
+                    навчальних матеріалах.
+                </p>
 
-// 8 – Зміна зображення
-document.getElementById("changeImage").onclick = function() {
-    const img = document.getElementById("image");
-    if (img.src.includes("Image1")) {
-        img.src = "https://via.placeholder.com/150x80?text=Image2";
-    } else {
-        img.src = "https://via.placeholder.com/150x80?text=Image1";
-    }
-};
+                <img id="image" class="demo-img"
+                     src="https://via.placeholder.com/200x90?text=Image+1"
+                     alt="Перше зображення">
+                <br>
+                <button id="changeImage">Змінити зображення</button>
 
-// 9 – Додавання класу
-document.getElementById("addClassButton").onclick = function() {
-    document.getElementById("styledText").classList.add("red");
-};
+                <div class="output" id="task8-output">
+                    <div class="output-title">Поточний стан:</div>
+                    Відображається перше зображення.
+                </div>
+            </article>
+
+            <!-- ЗАВДАННЯ 9 -->
+            <article id="task9" class="task">
+                <div class="task-header">
+                    <h2>Завдання 9. Додавання CSS-класу</h2>
+                    <span class="task-variant label">classList.add()</span>
+                </div>
+                <p>
+                    Найзручніший спосіб керування стилями елемента — додати або прибрати CSS-клас.
+                    У цьому прикладі при натисканні кнопки до тексту додається клас
+                    <code>.red</code>, який змінює його колір.
+                </p>
+
+                <p id="styledText">Цей текст стане червоним після натискання кнопки.</p>
+                <button id="addClassButton">Додати клас</button>
+
+                <div class="output" id="task9-output">
+                    <div class="output-title">Стан:</div>
+                    Клас <code>.red</code> ще не додано.
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <aside class="sidebar">
+        <h3>Навігація по завданнях</h3>
+        <a href="#task1">1. Вивід тексту в консоль</a>
+        <a href="#task2">2. Зміна вмісту абзацу</a>
+        <a href="#task3">3. Додавання абзаців</a>
+        <a href="#task4">4. Видалення абзацу</a>
+        <a href="#task5">5. Зміна фону сторінки</a>
+        <a href="#task6">6. Hover-ефект</a>
+        <a href="#task7">7. Валідація email</a>
+        <a href="#task8">8. Зміна зображення</a>
+        <a href="#task9">9. Додавання CSS-класу</a>
+    </aside>
+</main>
+
+<script>
+    // Завдання 1 – виведення тексту заголовка в консоль
+    const header = document.getElementById("header");
+    console.log("Завдання 1: текст заголовка –", header.innerText);
+
+    // Завдання 2 – зміна тексту
+    document.getElementById("changeTextButton").onclick = function () {
+        document.getElementById("text").innerText = "Текст змінено за допомогою JavaScript!";
+        document.getElementById("task2-output").innerText =
+            "Результат:\nТекст абзацу успішно змінено.";
+    };
+
+    // Завдання 3 – додавання абзаців
+    let addedCount = 0;
+    document.getElementById("addParagraphButton").onclick = function () {
+        const p = document.createElement("p");
+        addedCount++;
+        p.innerText = "Новий абзац №" + addedCount + ", доданий динамічно.";
+        document.body.appendChild(p);
+
+        document.getElementById("task3-output").innerText =
+            "Журнал додавання:\nДодано абзаців: " + addedCount;
+    };
+
+    // Завдання 4 – видалення останнього абзацу
+    let removedCount = 0;
+    document.getElementById("removeLastParagraph").onclick = function () {
+        const paragraphs = document.getElementsByTagName("p");
+        if (paragraphs.length > 0) {
+            paragraphs[paragraphs.length - 1].remove();
+            removedCount++;
+            document.getElementById("task4-output").innerText =
+                "Стан:\nВидалено абзаців: " + removedCount;
+        } else {
+            document.getElementById("task4-output").innerText =
+                "Стан:\nНемає абзаців для видалення.";
+        }
+    };
+
+    // Завдання 5 – зміна фону
+    let isAltBackground = false;
+    document.getElementById("changeBackgroundColor").onclick = function () {
+        if (!isAltBackground) {
+            document.body.style.background = "#d8e6ff";
+            document.getElementById("task5-output").innerText =
+                "Поточний фон:\nУвімкнено альтернативний блакитний фон.";
+        } else {
+            document.body.style.background =
+                "radial-gradient(circle at top left, #ffe8ff, #f7f4ff 40%, #e3f3ff 90%)";
+            document.getElementById("task5-output").innerText =
+                "Поточний фон:\nПовернуто початковий пастельний фон.";
+        }
+        isAltBackground = !isAltBackground;
+    };
+
+    // Завдання 6 – hover-ефект
+    const hoverText = document.getElementById("hoverText");
+    const task6Output = document.getElementById("task6-output");
+
+    hoverText.onmouseover = function () {
+        this.style.color = "red";
+        task6Output.innerText = "Журнал подій:\nКурсор наведено на текст.";
+    };
+    hoverText.onmouseout = function () {
+        this.style.color = "black";
+        task6Output.innerText = "Журнал подій:\nКурсор відведено від тексту.";
+    };
+
+    // Завдання 7 – валідація email
+    document.getElementById("emailForm").onsubmit = function (event) {
+        const email = document.getElementById("email").value.trim();
+        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const output = document.getElementById("task7-output");
+
+        if (!pattern.test(email)) {
+            alert("Email введено у невірному форматі!");
+            output.innerText = "Результат перевірки:\nПомилка. Формат електронної пошти некоректний.";
+            event.preventDefault();
+        } else {
+            alert("Email введено коректно.");
+            output.innerText = "Результат перевірки:\nАдресу " + email + " визнано коректною.";
+            event.preventDefault(); // щоб сторінка не перезавантажувалась під час демонстрації
+        }
+    };
+
+    // Завдання 8 – зміна зображення
+    let imageToggle = false;
+    document.getElementById("changeImage").onclick = function () {
+        const img = document.getElementById("image");
+        const output = document.getElementById("task8-output");
+
+        if (!imageToggle) {
+            img.src = "https://via.placeholder.com/200x90?text=Image+2";
+            img.alt = "Друге зображення";
+            output.innerText = "Поточний стан:\nВідображається друге зображення.";
+        } else {
+            img.src = "https://via.placeholder.com/200x90?text=Image+1";
+            img.alt = "Перше зображення";
+            output.innerText = "Поточний стан:\nПовернено перше зображення.";
+        }
+        imageToggle = !imageToggle;
+    };
+
+    // Завдання 9 – додавання класу
+    document.getElementById("addClassButton").onclick = function () {
+        const styled = document.getElementById("styledText");
+        styled.classList.add("red");
+        document.getElementById("task9-output").innerText =
+            "Стан:\nДо елемента додано клас .red, текст підсвічено червоним кольором.";
+    };
 </script>
 
 </body>
